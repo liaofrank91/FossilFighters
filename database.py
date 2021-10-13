@@ -34,4 +34,5 @@ vivosaur_database = {
                [["Amargo Stomp", 78, 60, ['no_effect', 'n/a'], False], ["Amargo Combo", 93, 120, ['scare', 0.4], False],
                 ["Blazing Doom", 114, 180, ['no_effect', 'n/a'], False],
                 ["Power Scale", 0, 50, ['equalize_fp', 1], False], ["Fire Cannon", 115, 230, ['az_and_sz', 1], True]]],
+    "NewVivosaurTest": []
 }
