@@ -8,7 +8,7 @@ current issues:
 - maybe I should also display the damage for the attacks and not just the FP? 
 - HAVE A 'FEED' OF SORTS: showing most recent actions (i.e. Spinax did x damage to Carchar)
 - image paths! (when upload)
-- EZ TO IMPLEMENT: TITLE SCREEN WELCOME TO FOSSIL FIGHTERS YADA YADA YA SLAP A T-REX SPRITE LOGO OR SMTH ON THERE
+- EZ TO IMPLEMENT: TITLE SCREEN WELCOME TO FOSSIL FIGHTERS SLAP A T-REX SPRITE LOGO OR SMTH ON THERE
 - EZ TO IMPLEMENT AND MORE IMPORTANT!! ENDING SCREEN SAYING WHO WON! and maybe click space to restart or smth
 - A BIT MORE TEDIOUS TO IMPLEMENT: during selection screen, cycle through all the available vivosaurs with the help of a
 - ... timer. Show the SPRITE and NAME 
