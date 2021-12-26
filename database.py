@@ -25,6 +25,11 @@ vivosaur_database = {
                                                ["Triple Threat", 159, 300, ['enrage', 0.8], False],
                                                ["Enflame", 0, 50, ['raise_att', 1], False],
                                                ["Tri-Torpedo", 112, 170, ['az_and_sz', 1], True]]],
+    "TRex": [600, "fire", 99, 50, 43, 18, [["Tyrant's Roar", 100, 100, ["az_and_sz", 1], False],
+                                           ["Scare Tactics", 166, 200, ["scare", 0.5], False],
+                                           ["Frightful Assault", 189, 300, ["scare", 1], False],
+                                           ["Law of the Jungle", 0, 200, ["jungle", 1], False],
+                                           ["Tyrant's Breath", 164, 280, ["az_and_sz", 1], True]]],
     # tricera has a 'knock to az' effect, but ez not implemented yet
     "Allo": [580, 'neutral', 88, 45, 48, 18,
              [["Allo Bite", 106, 70, ['no_effect', 'n/a'], False], ["Allo Combo", 126, 150, ['excite', 0.3], False],

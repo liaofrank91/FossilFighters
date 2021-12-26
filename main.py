@@ -42,8 +42,7 @@ class Vivosaur(pygame.sprite.Sprite):
         self.team = team
         self.original_health = original_health
 
-        self.image = pygame.image.load(
-            f'C:\\Users\\liaof\\PycharmProjects\\fossil_fighters_1.5\\vivosaur images\\{self.name.lower()}_image.png')
+        self.image = pygame.image.load(f'vivosaur images\\{self.name.lower()}_image.png')
 
         if self.team == 1:
             if self.vivosaur_index == 0:
