@@ -556,7 +556,7 @@ while True:
         if win_status == "p2-win":
             end_text = font.render("Player 2 Wins!", False, (255, 255, 255))
 
-        play_again_text = font.render("Press ENTER to restart the game! Or SPACE to leave", False, (255, 255, 255))
+        play_again_text = font.render("Press ENTER to restart the game! Or ESC to leave", False, (255, 255, 255))
 
         screen.blit(end_text, (100, 100))
         screen.blit(play_again_text, (100, 300))
