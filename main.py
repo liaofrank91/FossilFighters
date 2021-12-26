@@ -2,14 +2,21 @@ import pygame
 import database
 from random import randint
 
+''' 
+KNOWN ISSUES:
+- when I exit (from the esc key), there is an error. it doesn't really affect the user experience because the game
+  still closes like it should, but I should probably fix this sometime, even if its just to understand why there's an 
+  error
 '''
-current issues: 
-- show: Vivosaur Names, VIVOSAUR HEALTH AND HEALTHBAR (place health in blue portion)
-- maybe I should also display the damage for the attacks and not just the FP? 
+
+'''
+NEXT STEPS!! 
+*** Aesthetic Updates: make the fp1/p1 turn buttons black with white text, and then the fp2/p2-turn buttons white w/ 
+***     black text !!!
+- show: Vivosaur Names, VIVOSAUR HEALTH, 
 - HAVE A 'FEED' OF SORTS: showing most recent actions (i.e. Spinax did x damage to Carchar)
-- image paths! (when upload)
-- EZ TO IMPLEMENT: TITLE SCREEN WELCOME TO FOSSIL FIGHTERS SLAP A T-REX SPRITE LOGO OR SMTH ON THERE
-- EZ TO IMPLEMENT AND MORE IMPORTANT!! ENDING SCREEN SAYING WHO WON! and maybe click space to restart or smth
+- image paths! (when upload double check) 
+- T-Rex Sprite Logo 
 - A BIT MORE TEDIOUS TO IMPLEMENT: during selection screen, cycle through all the available vivosaurs with the help of a
 - ... timer. Show the SPRITE and NAME 
 - ADD AN END TURN BUTTON IF IM GOING TO ALLOW MORE THAN ONE ATTACK PER TURN
@@ -224,7 +231,12 @@ def update_rects(group1, group2):  # same suggestion as above ^ for update_teams
             vivosaur.rect = vivosaur.image.get_rect(center=(650, 280))
 
 def check_win(p1_team, p2_team):
-    pass
+    if len(p1_team) == 0:
+        return "p2-win"
+    if len(p2_team) == 0:
+        return "p1-win"
+    else:
+        return "no-win-yet"
 
 def display_base():
     screen.fill((79, 93, 117))
@@ -333,7 +345,6 @@ def display_targets(index, turn, defending_group):
     if index == 0:
         for i in range(counter):
             screen.blit(target_list[i], target_rect_list[i])
-            print('hello')
     else:
         screen.blit(target_list[0], target_rect_list[0])
         # target_rect_list = [target_rect_list[0]]
@@ -371,6 +382,8 @@ base_layout = True
 show_attacks = False
 show_targets = False
 execute_attack = False
+# new display controller added:
+end = False
 
 p1_fp = 0
 p2_fp = 0
@@ -387,6 +400,8 @@ vivosaur_creation_index = 0
 test_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(test_timer, 1500)
 
+
+
 # GAME
 while True:
     for event in pygame.event.get():
@@ -397,7 +412,6 @@ while True:
             pass
         if battle:
             if event.type == pygame.MOUSEBUTTONUP and show_attacks == False and show_targets == True:
-                print('hello3')
                 pos = pygame.mouse.get_pos()
                 defender_index = 0
                 for target in target_list:  # target_list is a list of rects
@@ -410,7 +424,6 @@ while True:
                 print(f'{defender_index} is the defender index')
 
             if event.type == pygame.MOUSEBUTTONUP and show_attacks == False and show_targets == False:
-                print('hello')
                 pos = pygame.mouse.get_pos()
                 show_attacks = False  # this WAS causing the problem before
                 attacker_index = -1
@@ -430,7 +443,6 @@ while True:
                             break
 
             if event.type == pygame.MOUSEBUTTONUP and show_attacks == True and show_targets == False:
-                print('hello2')
                 pos = pygame.mouse.get_pos()
                 # print(pos)
 
@@ -438,7 +450,6 @@ while True:
 
                 attack_index = 0
                 for attack in attack_group:
-                    print('working too')
                     if attack.rect.collidepoint(pos):
                         # attacks have been made into sprite object type
                         attack_sprite = attack
@@ -464,7 +475,7 @@ while True:
                             print(show_targets)
                             break
                     attack_index += 1
-        if not battle:
+        if not battle and not end:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     user_text = user_text[:-1]
@@ -491,8 +502,23 @@ while True:
                             p2_fp += 180
                 else:
                     user_text += event.unicode
+        if not battle and end:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    battle = False
+                    end = False
+                    vivosaur_creation_index = 0
+                    p1_team = []
+                    p2_team = []
+                    group1 = pygame.sprite.Group()
+                    group2 = pygame.sprite.Group()
+                    p1_fp = 0
+                    p2_fp = 0
+                if event.key == pygame.K_ESCAPE:
+                    pygame.display.quit()
+                    pygame.quit()
 
-    if not battle:
+    if (not battle) and (not end):
         screen.fill((0, 0, 0))
 
         text_surface = font.render(user_text, True, (255, 255, 255))
@@ -501,8 +527,8 @@ while True:
 
         text_rect_colour = pygame.Color('lightskyblue3')
 
-        pygame.draw.rect(screen,text_rect_colour,input_rect,3)
-        screen.blit(text_surface,(input_rect.x + 5, input_rect.y - 1))
+        pygame.draw.rect(screen, text_rect_colour, input_rect, 3)
+        screen.blit(text_surface, (input_rect.x + 5, input_rect.y - 1))
 
         if vivosaur_creation_index == 0:
             instruction_surface = font.render("Player 1, enter your FIRST vivosaur", True, (255, 255, 255))
@@ -523,7 +549,28 @@ while True:
             instruction_surface = font.render("Player 2, enter your THIRD vivosaur", True, (255, 255, 255))
             screen.blit(instruction_surface, (400, 200))
 
+    if (not battle) and end:
+        screen.fill((0, 0, 0))
+        if win_status == "p1-win":
+            end_text = font.render("Player 1 Wins!", False, (255, 255, 255))
+        if win_status == "p2-win":
+            end_text = font.render("Player 2 Wins!", False, (255, 255, 255))
+
+        play_again_text = font.render("Press ENTER to restart the game! Or SPACE to leave", False, (255, 255, 255))
+
+        screen.blit(end_text, (100, 100))
+        screen.blit(play_again_text, (100, 300))
+
     if battle:
+        win_status = check_win(p1_team, p2_team)
+
+        if win_status == "p1-win":
+            battle = False
+            end = True
+        if win_status == "p2-win":
+            battle = False
+            end = True
+
 
         if turn == 0:
             attacker_team = p1_team
